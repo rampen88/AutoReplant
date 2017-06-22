@@ -1,0 +1,50 @@
+# If the plugin should check if the block under the seed is farmland before replanting.
+CheckForFarmland: true
+
+# Delay in ticks from when block is broken to replant.
+# Might need to be 1 or above to prevent a small issue with McMMOs herbalism replant.
+ReplantDelay: 1
+
+# If the plugin should check the players inventory before creating a runnable (delayed task) for the required item. (It will also check before actually replanting either way.)
+ExtraInventoryCheckForItem: true
+
+# Call a BlockPlaceEvent after replanting. Prevents McMMO Herbalism 'farming' from just breaking the same seed over and over.
+# Also lets plugin like CoreProtect log that you replanted that seed, etc.
+ShouldCallBlockPlaceEvent: true
+
+# if ShouldCallBlockPlaceEvent is false, attempt to set McMMO metadata for the block.
+# Prevents McMMO Herbalism 'farming' from just breaking the same seed over and over.
+# Not entirely sure how well this works, would recommend using ShouldCallBlockPlaceEvent instead.
+AttemptSetMcmmoMetadata: false
+
+# Use Player#updateInventory. Set to true if there is any problems with removing the seeds from inventory.
+UpdatePlayerInventory: false
+
+# If the player is required to hold one of the Materials in RequiredItemMaterials for it to replant.
+RequireItem: true
+# Valid materials: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+RequiredItemMaterials:
+  - 'DIAMOND_HOE'
+  - 'IRON_HOE'
+
+Seeds:
+  # Material of item to replant. Only valid materials are: CROPS, CARROT, POTATO, BEETROOT_BLOCK, NETHER_WARTS.
+  CROPS:
+    # Find list of states here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/CropState.html
+    NewState: SEEDED
+    # Valid materials here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+    RequiredItem: SEEDS
+  CARROT:
+    NewState: SEEDED
+    RequiredItem: CARROT_ITEM
+  POTATO:
+    NewState: SEEDED
+    RequiredItem: POTATO_ITEM
+  BEETROOT_BLOCK:
+    NewState: SEEDED
+    RequiredItem: BEETROOT_SEEDS
+
+# Explains itself.
+Messages:
+  NoPermission: '&fUnknown command. Type "/help" for help.'
+  Reload: '&aReloaded AutoReplant configuration.'

@@ -1,0 +1,15 @@
+name: AutoReplant
+version: 1.0-SNAPSHOT
+author: rampen88
+main: me.rampen88.autoreplant.AutoReplant
+softdepend: [mcMMO]
+commands:
+  autoreplant:
+    description: Reloads the plugin.
+permissions:
+   auto.replant:
+     description: gives you access to the user commands.
+     default: op
+   auto.replant.reload:
+     description: gives you access to the user commands.
+     default: op
