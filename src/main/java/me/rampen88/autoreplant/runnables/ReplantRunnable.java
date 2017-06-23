@@ -44,7 +44,7 @@ public class ReplantRunnable extends BukkitRunnable {
 
 		// Remove the required item from players inventory
 		player.getInventory().removeItem(new ItemStack(info.getRequiredItem()));
-		// Check if plugin should update players inventory, does not seem to be needed on 1.12 or 1.11. Keeping it as an option.
+		// Check if plugin should update players inventory, does not seem to be needed, but keeping it as an option.
 		if(blockListener.shouldUpdatePlayerInv()) player.updateInventory();
 
 		BlockState replacedState = b.getState();

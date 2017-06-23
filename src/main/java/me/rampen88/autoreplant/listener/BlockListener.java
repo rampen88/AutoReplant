@@ -74,7 +74,7 @@ public class BlockListener implements Listener {
 			if(itemMap == null) itemMap = new ItemMap(plugin);
 			else itemMap.reload();
 
-		}else if(itemMap != null){ // if RequireItem was true, then changed to false, itemMap will not the null. if so, clear the values and set the variable to null.
+		}else if(itemMap != null){ // if RequireItem was true, then changed to false, itemMap will not be null. if so, clear the values and set it to null.
 			itemMap.clear();
 			itemMap = null;
 		}
