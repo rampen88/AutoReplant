@@ -49,8 +49,9 @@ public class ReplantRunnable extends BukkitRunnable {
 
 		BlockState replacedState = b.getState();
 
-		// set the new state then update the BlockState.
+		// set the new state
 		crops.setState(info.getNewState());
+		// Update the state. Has to be called before block place event.
 		state.update(true);
 
 		// If plugin should call block place event, call a BlockPlaceEvent.
@@ -59,12 +60,11 @@ public class ReplantRunnable extends BukkitRunnable {
 			BlockPlaceEvent e = new BlockPlaceEvent(state.getBlock(), replacedState, b.getRelative(BlockFace.DOWN), player.getInventory().getItemInMainHand(), player, true, EquipmentSlot.HAND);
 			Bukkit.getServer().getPluginManager().callEvent(e);
 
-		}else if(blockListener.shouldAttemptMcmmoData()){ // if plugin should not call block place event, see if it should attempt to give McMMO metadata to the block.
+		}else if(blockListener.shouldAttemptMcmmoData()){ // if plugin should not call block place event, see if it should attempt to let McMMO track the block.
 
 			McmmoHook hook = AutoReplant.getMcMMOHook();
-			if (hook != null) {
-				hook.attemptTrackBlock(b);
-			}
+			if (hook != null) hook.attemptTrackBlock(state);
+
 		}
 	}
 }
