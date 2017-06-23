@@ -12,9 +12,10 @@ ExtraInventoryCheckForItem: true
 # Also lets plugin like CoreProtect log that you replanted that seed, etc.
 ShouldCallBlockPlaceEvent: true
 
-# if ShouldCallBlockPlaceEvent is false, attempt to set McMMO metadata for the block.
+# if ShouldCallBlockPlaceEvent is false, attempt to let McMMO track the block.
 # Prevents McMMO Herbalism 'farming' from just breaking the same seed over and over.
-# Not entirely sure how well this works, would recommend using ShouldCallBlockPlaceEvent instead.
+# Not entirely sure how well this works, would recommend setting ShouldCallBlockPlaceEvent to true instead.
+# If you set this to true, be sure to test that it does not break anything else.
 AttemptSetMcmmoMetadata: false
 
 # Use Player#updateInventory. Set to true if there is any problems with removing the seeds from inventory.
@@ -27,13 +28,20 @@ RequiredItemMaterials:
   - 'DIAMOND_HOE'
   - 'IRON_HOE'
 
+# The default permission for replanting.
+# All seeds will require this permission.
+DefaultPermission: 'auto.replant'
+
 Seeds:
   # Material of item to replant. Only valid materials are: CROPS, CARROT, POTATO, BEETROOT_BLOCK, NETHER_WARTS.
+  # Don't want the plugin to replant one or more of the types? just remove it from the list.
   CROPS:
     # Find list of states here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/CropState.html
     NewState: SEEDED
     # Valid materials here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
     RequiredItem: SEEDS
+    # What block to check for if CheckForFarmland is true. Can be removed, will default to SOIL.
+    RequiredBlock: SOIL
   CARROT:
     NewState: SEEDED
     RequiredItem: CARROT_ITEM
@@ -43,6 +51,13 @@ Seeds:
   BEETROOT_BLOCK:
     NewState: SEEDED
     RequiredItem: BEETROOT_SEEDS
+  NETHER_WARTS:
+    # Valid states for Nether warts: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/NetherWartsState.html
+    NewState: SEEDED
+    RequiredItem: NETHER_STALK
+    RequiredBlock: SOUL_SAND
+    # Specific permission for this type. Can be added to all types of seeds. If this is removed, it will default to the DefaultPermission.
+    Permission: 'auto.replant.nether'
 
 # Explains itself.
 Messages:

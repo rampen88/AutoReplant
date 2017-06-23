@@ -4,6 +4,7 @@ import me.rampen88.autoreplant.AutoReplant;
 import me.rampen88.autoreplant.listener.BlockListener;
 import me.rampen88.autoreplant.util.McmmoHook;
 import me.rampen88.autoreplant.util.SeedInfo;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -13,26 +14,23 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Crops;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class ReplantRunnable extends BukkitRunnable {
+public abstract class ReplantRunnable extends BukkitRunnable {
 
-	private BlockState state;
-	private Crops crops;
-	private SeedInfo info;
+	BlockState state;
+	SeedInfo info;
 	private Player player;
 	private Block b;
 
 	private BlockListener blockListener;
 
-	public ReplantRunnable(Block b, SeedInfo info, Player player, BlockListener blockListener){
+	ReplantRunnable(Block b, SeedInfo info, Player player, BlockListener blockListener){
 		this.state = b.getState();
 		this.info = info;
 		this.player = player;
 		this.b = b;
 		this.blockListener = blockListener;
-		this.crops = (Crops) state.getData();
 	}
 
 	public void run(){
@@ -40,7 +38,7 @@ public class ReplantRunnable extends BukkitRunnable {
 		if(b.getType() != Material.AIR || !player.getInventory().contains(info.getRequiredItem(), 1)) return;
 
 		// If the plugin should check for farmland, check if the block under is farmland.
-		if(blockListener.shouldCheckFarmland() && b.getRelative(BlockFace.DOWN).getType() != Material.SOIL) return;
+		if(blockListener.shouldCheckFarmland() && b.getRelative(BlockFace.DOWN).getType() != info.getRequiredBlock()) return;
 
 		// Remove the required item from players inventory
 		player.getInventory().removeItem(new ItemStack(info.getRequiredItem()));
@@ -49,10 +47,8 @@ public class ReplantRunnable extends BukkitRunnable {
 
 		BlockState replacedState = b.getState();
 
-		// set the new state
-		crops.setState(info.getNewState());
-		// Update the state. Has to be called before block place event.
-		state.update(true);
+		// set and update the block state. Has to be called before the BlockPlaceEvent.
+		setAndUpdateState();
 
 		// If plugin should call block place event, call a BlockPlaceEvent.
 		if(blockListener.shouldCallBlockPlaceEvent()) {
@@ -67,4 +63,11 @@ public class ReplantRunnable extends BukkitRunnable {
 
 		}
 	}
+
+	protected abstract void setAndUpdateState();
+
+	public static ReplantRunnable createRunnable(Block b, SeedInfo info, Player player, BlockListener blockListener){
+		return b.getType() == Material.NETHER_WARTS ? new NetherReplantRunnable(b, info, player, blockListener) : new CropsReplantRunnable(b, info, player, blockListener);
+	}
+
 }

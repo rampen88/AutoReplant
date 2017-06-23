@@ -26,6 +26,8 @@ public class BlockListener implements Listener {
 	private boolean attemptMcmmoData;
 	private boolean updatePlayerInv;
 
+	private String defaultPerm;
+
 	private int delay;
 
 	public BlockListener(AutoReplant plugin){
@@ -38,7 +40,7 @@ public class BlockListener implements Listener {
 
 	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
 	public void onBlockBreak(BlockBreakEvent e){
-		if(!e.getPlayer().hasPermission("auto.replant")) return;
+		if(!e.getPlayer().hasPermission(defaultPerm)) return;
 
 		Block b = e.getBlock();
 
@@ -47,14 +49,15 @@ public class BlockListener implements Listener {
 		if(info == null) return;
 
 		Player p = e.getPlayer();
-		// if the plugin should check that the player has a seed in their inventory before creating a runnable, and the player does not have it, return.
-		if(extraInvCheck && !p.getInventory().contains(info.getRequiredItem(), 1)) return;
+		// if the player does not have the specific permission,
+		// or if the plugin should check that the player has a seed in their inventory before creating a runnable, and the player does not have it, return.
+		if(!info.hasPermission(p) || (extraInvCheck && !p.getInventory().contains(info.getRequiredItem(), 1))) return;
 
 		// Check if player needs to be holding a certain item, and if the player is holding the needed item(s)
 		if(itemMap != null && !itemMap.isPlayerHoldingItem(p)) return;
 
 		// Create a runnable to run the task later, after the block has been broken.
-		new ReplantRunnable(b, info, p, this).runTaskLater(plugin, delay);
+		ReplantRunnable.createRunnable(b, info, p, this).runTaskLater(plugin, delay);
 	}
 
 	public void reload(){
@@ -65,6 +68,8 @@ public class BlockListener implements Listener {
 		callBlockPlaceEvent = plugin.getConfig().getBoolean("ShouldCallBlockPlaceEvent");
 		attemptMcmmoData = plugin.getConfig().getBoolean("AttemptSetMcmmoMetadata");
 		updatePlayerInv = plugin.getConfig().getBoolean("UpdatePlayerInventory");
+
+		defaultPerm = plugin.getConfig().getString("DefaultPermission");
 
 		delay = plugin.getConfig().getInt("ReplantDelay");
 
