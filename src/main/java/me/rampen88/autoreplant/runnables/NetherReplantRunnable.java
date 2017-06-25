@@ -10,18 +10,16 @@ import org.bukkit.material.NetherWarts;
 public class NetherReplantRunnable extends ReplantRunnable{
 
 	private NetherWarts netherWarts;
-	private NetherSeedInfo nInfo;
 
 	NetherReplantRunnable(Block b, SeedInfo info, Player player, BlockListener blockListener) {
 		super(b, info, player, blockListener);
-
 		this.netherWarts = (NetherWarts) state.getData();
-		this.nInfo = (NetherSeedInfo) info; // SeedInfo should always be instance of NetherSeedInfo if material is NETHER_WARTS.
 	}
 
 	@Override
 	protected void setAndUpdateState() {
-		netherWarts.setState(nInfo.getNewStatePls());
+		// SeedInfo should always be instance of NetherSeedInfo if material is NETHER_WARTS.
+		netherWarts.setState(((NetherSeedInfo)info).getNewStatePls());
 		state.update(true);
 	}
 }
