@@ -2,7 +2,6 @@ name: AutoReplant
 version: ${project.version}
 author: rampen88
 main: me.rampen88.autoreplant.AutoReplant
-softdepend: [mcMMO]
 commands:
   autoreplant:
     description: Reloads the plugin.
