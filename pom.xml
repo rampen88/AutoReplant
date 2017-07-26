@@ -6,7 +6,7 @@
 
     <groupId>me.rampen88.autoreplant</groupId>
     <artifactId>AutoReplant</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.3-SNAPSHOT</version>
 
     <build>
         <finalName>AutoReplant</finalName>
@@ -53,12 +53,6 @@
             <artifactId>bukkit</artifactId>
             <version>1.12-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <!--McMMO-->
-        <dependency>
-            <groupId>com.gmail.nossr50.mcMMO</groupId>
-            <artifactId>mcMMO</artifactId>
-            <version>1.5.07-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

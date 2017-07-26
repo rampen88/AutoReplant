@@ -1,8 +1,6 @@
 package me.rampen88.autoreplant.runnables;
 
-import me.rampen88.autoreplant.AutoReplant;
 import me.rampen88.autoreplant.listener.BlockListener;
-import me.rampen88.autoreplant.util.McmmoHook;
 import me.rampen88.autoreplant.util.SeedInfo;
 
 import org.bukkit.Bukkit;
@@ -47,7 +45,7 @@ public abstract class ReplantRunnable extends BukkitRunnable {
 
 		BlockState replacedState = b.getState();
 
-		// set and update the block state. Has to be called before the BlockPlaceEvent.
+		// Has to be called before the BlockPlaceEvent.
 		setAndUpdateState();
 
 		// If plugin should call block place event, call a BlockPlaceEvent.
@@ -55,11 +53,6 @@ public abstract class ReplantRunnable extends BukkitRunnable {
 
 			BlockPlaceEvent e = new BlockPlaceEvent(state.getBlock(), replacedState, b.getRelative(BlockFace.DOWN), player.getInventory().getItemInMainHand(), player, true, EquipmentSlot.HAND);
 			Bukkit.getServer().getPluginManager().callEvent(e);
-
-		}else if(blockListener.shouldAttemptMcmmoData()){ // if plugin should not call block place event, see if it should attempt to let McMMO track the block.
-
-			McmmoHook hook = AutoReplant.getMcMMOHook();
-			if (hook != null) hook.attemptTrackBlock(state);
 
 		}
 	}

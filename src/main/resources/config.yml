@@ -11,13 +11,6 @@ ExtraInventoryCheckForItem: true
 # Call a BlockPlaceEvent after replanting. lets plugin like CoreProtect log that you replanted that seed, etc.
 ShouldCallBlockPlaceEvent: true
 
-# if ShouldCallBlockPlaceEvent is false, attempt to let McMMO track the block.
-# Not entirely sure how well this works, would recommend setting ShouldCallBlockPlaceEvent to true instead.
-# If you set this to true, be sure to test that it does not break anything else.
-# If you really don't want to use ShouldCallBlockPlaceEvent, try keeping this at false as well and see if there is any problems
-# before putting it at true. The issues I was having, causing me to add this, might've been with the version of McMMO I was using.
-AttemptSetMcmmoMetadata: false
-
 # Use Player#updateInventory. Set to true if there is any problems with removing the seeds from inventory.
 UpdatePlayerInventory: false
 

@@ -23,7 +23,6 @@ public class BlockListener implements Listener {
 	// TODO: Move to another class
 	private boolean checkFarmland;
 	private boolean callBlockPlaceEvent;
-	private boolean attemptMcmmoData;
 	private boolean updatePlayerInv;
 
 	private String defaultPerm;
@@ -66,7 +65,6 @@ public class BlockListener implements Listener {
 		checkFarmland = plugin.getConfig().getBoolean("CheckForFarmland");
 		extraInvCheck = plugin.getConfig().getBoolean("ExtraInventoryCheckForItem");
 		callBlockPlaceEvent = plugin.getConfig().getBoolean("ShouldCallBlockPlaceEvent");
-		attemptMcmmoData = plugin.getConfig().getBoolean("AttemptSetMcmmoMetadata");
 		updatePlayerInv = plugin.getConfig().getBoolean("UpdatePlayerInventory");
 
 		defaultPerm = plugin.getConfig().getString("DefaultPermission");
@@ -91,10 +89,6 @@ public class BlockListener implements Listener {
 
 	public boolean shouldCallBlockPlaceEvent(){
 		return callBlockPlaceEvent;
-	}
-
-	public boolean shouldAttemptMcmmoData(){
-		return attemptMcmmoData;
 	}
 
 	public boolean shouldUpdatePlayerInv(){
