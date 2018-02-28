@@ -7,8 +7,8 @@ public class NetherSeedInfo extends SeedInfo{
 
 	private NetherWartsState newState;
 
-	NetherSeedInfo(NetherWartsState newState, Material requiredItem, Material requiredBlock, String permission) {
-		super(null, requiredItem, requiredBlock, permission);
+	NetherSeedInfo(NetherWartsState newState, Material requiredItem, Material requiredBlock, String permission, String noSeedPermission) {
+		super(null, requiredItem, requiredBlock, permission, noSeedPermission);
 		this.newState = newState;
 	}
 

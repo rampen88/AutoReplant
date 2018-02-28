@@ -32,25 +32,25 @@ public abstract class ReplantRunnable extends BukkitRunnable {
 	}
 
 	public void run(){
-		// check if block is still broken and that player have 1 of the required item in their inventory.
-		if(b.getType() != Material.AIR || !player.getInventory().contains(info.getRequiredItem(), 1)) return;
+		// Check if block is still broken, and if the plugin should check for farmland, check if the block under is the required block.
+		if(b.getType() != Material.AIR || (blockListener.shouldCheckFarmland() && b.getRelative(BlockFace.DOWN).getType() != info.getRequiredBlock()))
+			return;
 
-		// If the plugin should check for farmland, check if the block under is farmland.
-		if(blockListener.shouldCheckFarmland() && b.getRelative(BlockFace.DOWN).getType() != info.getRequiredBlock()) return;
+		if(!info.hasNoseedPermission(player)) {
+			if(player.getInventory().contains(info.getRequiredItem(), 1))
+				player.getInventory().removeItem(new ItemStack(info.getRequiredItem()));
+			else
+				return;
+		}
 
-		// Remove the required item from players inventory
-		player.getInventory().removeItem(new ItemStack(info.getRequiredItem()));
-		// Check if plugin should update players inventory, does not seem to be needed, but keeping it as an option.
-		if(blockListener.shouldUpdatePlayerInv()) player.updateInventory();
+		if(blockListener.shouldUpdatePlayerInv())
+			player.updateInventory();
 
 		BlockState replacedState = b.getState();
-
 		// Has to be called before the BlockPlaceEvent.
 		setAndUpdateState();
 
-		// If plugin should call block place event, call a BlockPlaceEvent.
 		if(blockListener.shouldCallBlockPlaceEvent()) {
-
 			BlockPlaceEvent e = new BlockPlaceEvent(state.getBlock(), replacedState, b.getRelative(BlockFace.DOWN), player.getInventory().getItemInMainHand(), player, true, EquipmentSlot.HAND);
 			Bukkit.getServer().getPluginManager().callEvent(e);
 

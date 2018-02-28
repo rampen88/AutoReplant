@@ -18,7 +18,6 @@ public class NetherReplantRunnable extends ReplantRunnable{
 
 	@Override
 	protected void setAndUpdateState() {
-		// SeedInfo should always be instance of NetherSeedInfo if material is NETHER_WARTS.
 		netherWarts.setState(((NetherSeedInfo)info).getNewStatePls());
 		state.update(true);
 	}

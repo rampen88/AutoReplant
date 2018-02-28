@@ -19,7 +19,6 @@ public class SeedMap {
 
 	public void reload(){
 		ConfigurationSection section = plugin.getConfig().getConfigurationSection("Seeds");
-		// Get the keys from Seeds section in the configuration, and loop through each of them.
 		section.getKeys(false).forEach(s -> {
 			try{
 				Material material = Material.valueOf(s);
@@ -29,16 +28,16 @@ public class SeedMap {
 				String block = section.getString(s + ".RequiredBlock");
 				Material requiredBlock = block != null ? Material.valueOf(block) : Material.SOIL;
 
-				// Get the permission for the item. if there's no specific permission for it, the string will be null.
 				String permission = section.getString(s + ".Permission");
+				String noSeedPermission = section.getString(s + ".NoSeedPermission", "auto.replant.noseed");
 
 				SeedInfo info;
 				if(material == Material.NETHER_WARTS){
 					NetherWartsState newState = NetherWartsState.valueOf(section.getString(s + ".NewState"));
-					info = new NetherSeedInfo(newState, requiredItem, requiredBlock, permission);
+					info = new NetherSeedInfo(newState, requiredItem, requiredBlock, permission, noSeedPermission);
 				}else{
 					CropState newState = CropState.valueOf(section.getString(s + ".NewState"));
-					info = new SeedInfo(newState, requiredItem, requiredBlock, permission);
+					info = new SeedInfo(newState, requiredItem, requiredBlock, permission, noSeedPermission);
 				}
 				seeds.put(material, info);
 

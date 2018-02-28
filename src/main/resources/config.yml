@@ -49,8 +49,10 @@ Seeds:
     NewState: SEEDED
     RequiredItem: NETHER_STALK
     RequiredBlock: SOUL_SAND
-    # Specific permission for this type. Can be added to all types of seeds. If this is removed, it will default to the DefaultPermission.
+    # Specific permission for this type. Can be added to all types of seeds. Only DefaultPermission is required if this is removed.
     Permission: 'auto.replant.nether'
+    # Permission for not needing to have a seed in inventory, defaults to auto.replant.noseed if removed.
+    NoSeedPermission: 'auto.replant.noseed.nether'
 
 # Explains itself.
 Messages:

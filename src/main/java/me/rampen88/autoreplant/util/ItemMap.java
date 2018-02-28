@@ -19,10 +19,8 @@ public class ItemMap {
 
 	public void reload(){
 		clear();
-
 		plugin.getConfig().getStringList("RequiredItemMaterials").forEach(s -> {
 			try{
-
 				Material requiredItem = Material.valueOf(s);
 				requiredItems.add(requiredItem);
 
