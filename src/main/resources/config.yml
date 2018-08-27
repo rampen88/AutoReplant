@@ -41,7 +41,7 @@ Seeds:
   POTATOES:
     NewState: 0
     RequiredItem: POTATO
-  BEETROOT:
+  BEETROOTS:
     NewState: 0
     RequiredItem: BEETROOT_SEEDS
   NETHER_WART:
