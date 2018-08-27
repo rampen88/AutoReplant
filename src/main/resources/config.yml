@@ -28,26 +28,26 @@ DefaultPermission: 'auto.replant'
 Seeds:
   # Material of item to replant. Only valid materials are: CROPS, CARROT, POTATO, BEETROOT_BLOCK, NETHER_WARTS.
   # Don't want the plugin to replant one or more of the types? just remove it from the list.
-  CROPS:
-    # Find list of states here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/CropState.html
-    NewState: SEEDED
+  WHEAT:
+    # How old the seed is when it gets replanted, 0 indicates that the seed was just planted.
+    NewState: 0
     # Valid materials here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
-    RequiredItem: SEEDS
+    RequiredItem: WHEAT_SEEDS
     # What block to check for if CheckForFarmland is true. Can be removed, will default to SOIL.
-    RequiredBlock: SOIL
-  CARROT:
-    NewState: SEEDED
-    RequiredItem: CARROT_ITEM
-  POTATO:
-    NewState: SEEDED
-    RequiredItem: POTATO_ITEM
-  BEETROOT_BLOCK:
-    NewState: SEEDED
+    RequiredBlock: FARMLAND
+  CARROTS:
+    NewState: 0
+    RequiredItem: CARROT
+  POTATOES:
+    NewState: 0
+    RequiredItem: POTATO
+  BEETROOT:
+    NewState: 0
     RequiredItem: BEETROOT_SEEDS
-  NETHER_WARTS:
+  NETHER_WART:
     # Valid states for Nether warts: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/NetherWartsState.html
-    NewState: SEEDED
-    RequiredItem: NETHER_STALK
+    NewState: 0
+    RequiredItem: NETHER_WART
     RequiredBlock: SOUL_SAND
     # Specific permission for this type. Can be added to all types of seeds. Only DefaultPermission is required if this is removed.
     Permission: 'auto.replant.nether'

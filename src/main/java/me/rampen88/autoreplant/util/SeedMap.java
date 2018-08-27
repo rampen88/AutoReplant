@@ -1,9 +1,7 @@
 package me.rampen88.autoreplant.util;
 
 import me.rampen88.autoreplant.AutoReplant;
-import org.bukkit.CropState;
 import org.bukkit.Material;
-import org.bukkit.NetherWartsState;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashMap;
@@ -26,19 +24,13 @@ public class SeedMap {
 
 				// Get the material for the required block, .getString returns null if it does not exist, in that cause, default to SOIL.
 				String block = section.getString(s + ".RequiredBlock");
-				Material requiredBlock = block != null ? Material.valueOf(block) : Material.SOIL;
+				Material requiredBlock = block != null ? Material.valueOf(block) : Material.FARMLAND;
 
 				String permission = section.getString(s + ".Permission");
 				String noSeedPermission = section.getString(s + ".NoSeedPermission", "auto.replant.noseed");
+				int age = section.getInt(s + ".NewState", 0);
 
-				SeedInfo info;
-				if(material == Material.NETHER_WARTS){
-					NetherWartsState newState = NetherWartsState.valueOf(section.getString(s + ".NewState"));
-					info = new NetherSeedInfo(newState, requiredItem, requiredBlock, permission, noSeedPermission);
-				}else{
-					CropState newState = CropState.valueOf(section.getString(s + ".NewState"));
-					info = new SeedInfo(newState, requiredItem, requiredBlock, permission, noSeedPermission);
-				}
+				SeedInfo info = new SeedInfo(age, requiredItem, requiredBlock, permission, noSeedPermission);
 				seeds.put(material, info);
 
 			}catch (NullPointerException | IllegalArgumentException e){

@@ -20,7 +20,6 @@ public class BlockListener implements Listener {
 	private ItemMap itemMap;
 
 	private boolean extraInvCheck;
-	// TODO: Move to another class
 	private boolean checkFarmland;
 	private boolean callBlockPlaceEvent;
 	private boolean updatePlayerInv;
@@ -48,7 +47,7 @@ public class BlockListener implements Listener {
 			return;
 
 		Player p = e.getPlayer();
-		if(!info.hasPermission(p) || (extraInvCheck && (!info.hasNoseedPermission(p) && !p.getInventory().contains(info.getRequiredItem(), 1))))
+		if(!info.hasPermission(p) || (extraInvCheck && (!info.hasNoSeedPermission(p) && !p.getInventory().contains(info.getRequiredItem(), 1))))
 			return;
 
 		if(itemMap != null && !itemMap.isPlayerHoldingItem(p))

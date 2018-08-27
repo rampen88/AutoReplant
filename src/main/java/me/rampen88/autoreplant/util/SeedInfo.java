@@ -1,28 +1,26 @@
 package me.rampen88.autoreplant.util;
 
-import org.bukkit.CropState;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permissible;
 
 public class SeedInfo {
 
-	private CropState newState;
+	private int newAge;
 	private Material requiredItem;
 	private Material requiredBlock;
 	private String permission;
 	private String noSeedPermission;
 
-	SeedInfo(CropState newState, Material requiredItem, Material requiredBlock, String permission, String noSeedPermission){
-		this.newState = newState;
+	SeedInfo(int newAge, Material requiredItem, Material requiredBlock, String permission, String noSeedPermission){
+		this.newAge = newAge;
 		this.requiredItem = requiredItem;
 		this.requiredBlock = requiredBlock;
 		this.permission = permission;
 		this.noSeedPermission = noSeedPermission;
 	}
 
-	public CropState getNewState(){
-		return newState;
+	public int getNewAge(){
+		return newAge;
 	}
 
 	public Material getRequiredItem(){
@@ -33,12 +31,12 @@ public class SeedInfo {
 		return requiredBlock;
 	}
 
-	public boolean hasPermission(Player p){
+	public boolean hasPermission(Permissible permissible){
 		// if permission is null, there is no specific perm for this type.
-		return permission == null || p.hasPermission(permission);
+		return permission == null || permissible.hasPermission(permission);
 	}
 
-	public boolean hasNoseedPermission(Permissible permissible){
+	public boolean hasNoSeedPermission(Permissible permissible){
 		// Permission should never be null
 		return permissible.hasPermission(noSeedPermission);
 	}

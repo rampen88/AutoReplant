@@ -8,22 +8,23 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public abstract class ReplantRunnable extends BukkitRunnable {
+public class ReplantRunnable extends BukkitRunnable {
 
-	BlockState state;
-	SeedInfo info;
-	private Player player;
+	private BlockState state;
+	private SeedInfo info;
 	private Block b;
+	private Player player;
 
 	private BlockListener blockListener;
 
-	ReplantRunnable(Block b, SeedInfo info, Player player, BlockListener blockListener){
+	private ReplantRunnable(Block b, SeedInfo info, Player player, BlockListener blockListener){
 		this.state = b.getState();
 		this.info = info;
 		this.player = player;
@@ -36,7 +37,7 @@ public abstract class ReplantRunnable extends BukkitRunnable {
 		if(b.getType() != Material.AIR || (blockListener.shouldCheckFarmland() && b.getRelative(BlockFace.DOWN).getType() != info.getRequiredBlock()))
 			return;
 
-		if(!info.hasNoseedPermission(player)) {
+		if(!info.hasNoSeedPermission(player)) {
 			if(player.getInventory().contains(info.getRequiredItem(), 1))
 				player.getInventory().removeItem(new ItemStack(info.getRequiredItem()));
 			else
@@ -53,14 +54,18 @@ public abstract class ReplantRunnable extends BukkitRunnable {
 		if(blockListener.shouldCallBlockPlaceEvent()) {
 			BlockPlaceEvent e = new BlockPlaceEvent(state.getBlock(), replacedState, b.getRelative(BlockFace.DOWN), player.getInventory().getItemInMainHand(), player, true, EquipmentSlot.HAND);
 			Bukkit.getServer().getPluginManager().callEvent(e);
-
 		}
 	}
 
-	protected abstract void setAndUpdateState();
+	private void setAndUpdateState(){
+		Ageable ageable = (Ageable) state.getBlockData();
+		ageable.setAge(info.getNewAge() <=  ageable.getMaximumAge() ? info.getNewAge() : ageable.getMaximumAge());
+		state.setBlockData(ageable);
+		state.update(true);
+	}
 
 	public static ReplantRunnable createRunnable(Block b, SeedInfo info, Player player, BlockListener blockListener){
-		return b.getType() == Material.NETHER_WARTS ? new NetherReplantRunnable(b, info, player, blockListener) : new CropsReplantRunnable(b, info, player, blockListener);
+		return new ReplantRunnable(b, info, player, blockListener);
 	}
 
 }

@@ -2,6 +2,7 @@ name: AutoReplant
 version: ${project.version}
 author: rampen88
 main: me.rampen88.autoreplant.AutoReplant
+api-version: 1.13
 commands:
   autoreplant:
     description: Reloads the plugin.
